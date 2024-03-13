@@ -23,3 +23,30 @@ func GetAdmin(email, password string) (*models.Admin, error) {
 	admin.Email = email
 	return &admin, nil
 }
+
+func IsAdminExists(email string) (bool, error) {
+	query := `
+		SELECT EXISTS (
+			SELECT 1 FROM admins WHERE email = $1 AND deleted_at IS NULL
+		);
+	`
+
+	var exists bool
+
+	err := db.DB.QueryRow(query, email).Scan(&exists)
+
+	return exists, err
+}
+
+func CreateAdmin(email, password, role string) error {
+	query := `
+		INSERT INTO admins
+		(email, password, role)
+		VALUES
+		($1, $2, $3)
+	`
+
+	_, err := db.DB.Exec(query, email, password, role)
+
+	return err
+}

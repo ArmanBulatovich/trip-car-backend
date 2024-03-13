@@ -2,8 +2,10 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/trip/trip-service/cmd"
 	"github.com/trip/trip-service/internal/api/server"
 	"github.com/trip/trip-service/internal/config"
 )
@@ -11,7 +13,7 @@ import (
 func main() {
 	log.Println("Starting trip car backend...")
 
-	err := godotenv.Load("../.env")
+	err := godotenv.Load(".env")
 	if err != nil {
 		log.Printf(".env load error: %s\n" + err.Error())
 	}
@@ -23,5 +25,12 @@ func main() {
 		return
 	}
 
-	server.Engine()
+	if len(os.Args) < 2 {
+		server.Engine()
+	}
+
+	switch os.Args[1] {
+	case cmd.CreateSuperAdminFlag:
+		cmd.CreateSuperAdmin()
+	}
 }

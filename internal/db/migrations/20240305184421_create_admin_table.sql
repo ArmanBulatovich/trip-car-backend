@@ -4,6 +4,7 @@ CREATE TABLE admins(
     id SERIAL PRIMARY KEY,
     email VARCHAR(32),
     password VARCHAR(256),
+    role VARCHAR(32),
     created_at TIMESTAMPTZ DEFAULT NOW(),
     deleted_at TIMESTAMPTZ
 );
