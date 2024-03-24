@@ -11,4 +11,7 @@ func SetAdminRoutesV1(engine *gin.Engine) {
 	{
 		v1.POST("/login", admin_handlers.Login)
 	}
+	{
+		v1.POST("/organizations", admin_handlers.CreateOrganization)
+	}
 }
