@@ -15,14 +15,14 @@ func Login(c *gin.Context) {
 
 	if err := c.BindJSON(req); err != nil {
 		log.Printf("admin_handlers.LoginHandler->BindJSON: %s\n", err.Error())
-		c.JSON(http.StatusBadRequest, responses.CreateErrorResponse(nil, ""))
+		c.JSON(http.StatusBadRequest, responses.CreateErrorResponse(nil, "", responses.InvalidRequestBody))
 		return
 	}
 
 	resp, err := admin_services.Login(req)
 	if err != nil {
 		log.Printf("admin_handlers.LoginHandler->Login: %s\n", err.Error())
-		c.JSON(http.StatusBadRequest, responses.CreateErrorResponse(nil, ""))
+		c.JSON(http.StatusBadRequest, responses.CreateErrorResponse(nil, "", responses.InvalidRequestBody))
 		return
 	}
 
