@@ -6,11 +6,12 @@ import (
 
 	"github.com/trip/trip-service/internal/api/responses"
 	"github.com/trip/trip-service/internal/dto"
+	"github.com/trip/trip-service/internal/models"
 	"github.com/trip/trip-service/internal/repositories"
 	"github.com/trip/trip-service/internal/utils"
 )
 
-func CreateOrganization(req *dto.CreateOrganizationRequestDTO) (*responses.ApiResponse, error) {
+func CreateOrganization(req *dto.CreateOrganizationRequestDTO, admin *models.Admin) (*responses.ApiResponse, error) {
 	req.Slug = strings.ToLower(req.Slug)
 
 	if req.Name == "" {
@@ -28,7 +29,7 @@ func CreateOrganization(req *dto.CreateOrganizationRequestDTO) (*responses.ApiRe
 		return &resp, nil
 	}
 
-	id, err := repositories.CreateOrganization(req.Name, req.Slug, metadataJson, 1)
+	id, err := repositories.CreateOrganization(req.Name, req.Slug, metadataJson, admin.ID)
 	if err != nil {
 		return nil, err
 	}

@@ -19,7 +19,12 @@ func CreateErrorResponse(result interface{}, message string, code int) ApiRespon
 const (
 	OK = iota
 	Error
+	// AUTH
+	InvalidAuthToken
+	TokenExpired
+	// REQUEST
 	InvalidRequestBody
+	// ORGANIZATIONS
 	InvalidName
 	InvalidSlug
 	InvalidMetadata
