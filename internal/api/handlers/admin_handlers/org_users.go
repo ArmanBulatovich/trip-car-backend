@@ -10,24 +10,24 @@ import (
 	"github.com/trip/trip-service/internal/services/admin_services"
 )
 
-func CreateOrganization(c *gin.Context) {
+func CreateOrgUser(c *gin.Context) {
 	admin, ok := getAdminFromContext(c)
 	if !ok {
-		log.Printf("admin_handlers.CreateOrganization->getAdminFromContext: Error\n")
+		log.Printf("admin_handlers.CreateOrgUser->getAdminFromContext: Error\n")
 		c.JSON(http.StatusBadGateway, responses.CreateErrorResponse(nil, "", responses.Error))
 		return
 	}
 
-	req := &dto.CreateOrganizationRequestDTO{}
+	req := &dto.CreateOrgUserRequestDTO{}
 	if err := c.BindJSON(req); err != nil {
-		log.Printf("admin_handlers.CreateOrganization->BindJSON: %s\n", err.Error())
+		log.Printf("admin_handlers.CreateOrgUser->BindJSON: %s\n", err.Error())
 		c.JSON(http.StatusBadRequest, responses.CreateErrorResponse(nil, "", responses.InvalidRequestBody))
 		return
 	}
 
-	resp, err := admin_services.CreateOrganization(req, admin)
+	resp, err := admin_services.CreateOrgUser(req, admin)
 	if err != nil {
-		log.Printf("admin_handlers.CreateOrganization->CreateOrganization: %s\n", err.Error())
+		log.Printf("admin_handlers.CreateOrgUser->CreateOrgUser: %s\n", err.Error())
 		c.JSON(http.StatusBadRequest, responses.CreateErrorResponse(nil, "", responses.Error))
 		return
 	}

@@ -28,4 +28,7 @@ const (
 	InvalidName
 	InvalidSlug
 	InvalidMetadata
+	// USERS
+	InvalidRole
+	InvalidEmail
 )
