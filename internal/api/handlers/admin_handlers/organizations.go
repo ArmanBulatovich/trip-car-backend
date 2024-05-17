@@ -34,3 +34,21 @@ func CreateOrganization(c *gin.Context) {
 
 	c.JSON(http.StatusOK, resp)
 }
+
+func GetOrganizations(c *gin.Context) {
+	req := &dto.GetOrganizationsRequest{}
+	if err := c.BindQuery(&req); err != nil {
+		log.Printf("admin_handlers.CreateOrganization->BindQuery: %s\n", err)
+		c.JSON(http.StatusBadGateway, responses.CreateErrorResponse(nil, "", responses.Error))
+		return
+	}
+
+	resp, err := admin_services.GetOrganizations(req)
+	if err != nil {
+		log.Printf("admin_handlers.CreateOrganization->GetOrganizations: %s\n", err)
+		c.JSON(http.StatusBadGateway, responses.CreateErrorResponse(nil, "", responses.Error))
+		return
+	}
+
+	c.JSON(http.StatusOK, resp)
+}

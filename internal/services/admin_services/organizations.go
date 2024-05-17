@@ -38,3 +38,16 @@ func CreateOrganization(req *dto.CreateOrganizationRequestDTO, admin *models.Adm
 	resp := responses.CreateSuccessResponse(respDto, "ok")
 	return &resp, nil
 }
+
+func GetOrganizations(req *dto.GetOrganizationsRequest) (*responses.ApiResponse, error) {
+	organizations, err := repositories.GetOrganizations(req.Page, req.PerPage)
+	if err != nil {
+		return nil, err
+	}
+
+	respDto := dto.GetOrganizationsResponse{
+		Organizations: organizations,
+	}
+	resp := responses.CreateSuccessResponse(respDto, "ok")
+	return &resp, nil
+}
