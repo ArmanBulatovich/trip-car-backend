@@ -11,7 +11,7 @@ import (
 	"github.com/trip/trip-service/internal/utils"
 )
 
-func CreateOrganization(req *dto.CreateOrganizationRequestDTO, admin *models.Admin) (*responses.ApiResponse, error) {
+func CreateOrganization(req *dto.OrganizationRequest, admin *models.Admin) (*responses.ApiResponse, error) {
 	req.Slug = strings.ToLower(req.Slug)
 
 	if req.Name == "" {
@@ -34,7 +34,7 @@ func CreateOrganization(req *dto.CreateOrganizationRequestDTO, admin *models.Adm
 		return nil, err
 	}
 
-	respDto := dto.CreateOrganizationResponseDTO{ID: id}
+	respDto := dto.OrganizationResponse{ID: id}
 	resp := responses.CreateSuccessResponse(respDto, "ok")
 	return &resp, nil
 }

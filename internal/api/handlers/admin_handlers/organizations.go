@@ -18,7 +18,7 @@ func CreateOrganization(c *gin.Context) {
 		return
 	}
 
-	req := &dto.CreateOrganizationRequestDTO{}
+	req := &dto.OrganizationRequest{}
 	if err := c.BindJSON(req); err != nil {
 		log.Printf("admin_handlers.CreateOrganization->BindJSON: %s\n", err.Error())
 		c.JSON(http.StatusBadRequest, responses.CreateErrorResponse(nil, "", responses.InvalidRequestBody))
