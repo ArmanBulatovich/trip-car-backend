@@ -35,6 +35,30 @@ func UpdateOrganization(id uint, name, slug string, metadata []byte) error {
 	return err
 }
 
+func GetOrganization(id uint) (*models.Organization, error) {
+	query := `
+		SELECT name, slug, metadata
+		FROM organizations
+		WHERE id = $1 AND deleted_at IS NULL
+	`
+
+	organization := models.Organization{}
+
+	var metadata []byte
+	err := db.DB.QueryRow(query, id).Scan(&organization.Name, &organization.Slug, &metadata)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := json.Unmarshal(metadata, &organization.Metadata); err != nil {
+		log.Printf("Organization[%d] metadata Unmarshal error: %s\n", organization.ID, err)
+	}
+
+	organization.ID = id
+
+	return &organization, nil
+}
+
 func GetOrganizations(page, perPage int) ([]*models.Organization, error) {
 	query := `
 		SELECT id, name, slug, metadata

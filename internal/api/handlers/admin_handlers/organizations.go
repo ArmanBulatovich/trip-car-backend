@@ -62,6 +62,25 @@ func UpdateOrganization(c *gin.Context) {
 	c.JSON(http.StatusOK, resp)
 }
 
+func GetOrganization(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.ParseUint(idParam, 10, 64)
+	if err != nil {
+		log.Printf("admin_handlers.GetOrganization->ParseUint: %s\n", err.Error())
+		c.JSON(http.StatusBadRequest, responses.CreateErrorResponse(nil, "", responses.InvalidUrlParam))
+		return
+	}
+
+	resp, err := admin_services.GetOrganization(uint(id))
+	if err != nil {
+		log.Printf("admin_handlers.GetOrganization->GetOrganization: %s\n", err.Error())
+		c.JSON(http.StatusBadRequest, responses.CreateErrorResponse(nil, "", responses.Error))
+		return
+	}
+
+	c.JSON(http.StatusOK, resp)
+}
+
 func GetOrganizations(c *gin.Context) {
 	req := &dto.GetOrganizationsRequest{}
 	if err := c.BindQuery(&req); err != nil {

@@ -66,6 +66,18 @@ func UpdateOrganization(req *dto.OrganizationRequest, id uint) (*responses.ApiRe
 	return &resp, nil
 }
 
+func GetOrganization(id uint) (*responses.ApiResponse, error) {
+	organization, err := repositories.GetOrganization(id)
+	if err != nil {
+		return nil, err
+	}
+
+	respDto := dto.GetOrganizationResponse{Organization: organization}
+	resp := responses.CreateSuccessResponse(respDto, "")
+
+	return &resp, nil
+}
+
 func GetOrganizations(req *dto.GetOrganizationsRequest) (*responses.ApiResponse, error) {
 	organizations, err := repositories.GetOrganizations(req.Page, req.PerPage)
 	if err != nil {

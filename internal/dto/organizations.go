@@ -19,3 +19,7 @@ type GetOrganizationsRequest struct {
 type GetOrganizationsResponse struct {
 	Organizations []*models.Organization `json:"organizations"`
 }
+
+type GetOrganizationResponse struct {
+	Organization *models.Organization `json:"organization"`
+}
