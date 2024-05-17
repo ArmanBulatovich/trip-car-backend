@@ -14,8 +14,11 @@ func SetAdminRoutesV1(engine *gin.Engine) {
 	}
 	{
 		v1.POST("/organizations", middlewares.AdminAuthMiddleware(), admin_handlers.CreateOrganization)
-		v1.POST("/organizations/users", middlewares.AdminAuthMiddleware(), admin_handlers.CreateOrgUser)
+		v1.PUT("/organizations/:id", middlewares.AdminAuthMiddleware(), admin_handlers.UpdateOrganization)
 		v1.GET("/organizations", middlewares.AdminAuthMiddleware(), admin_handlers.GetOrganizations)
+	}
+	{
+		v1.POST("/organizations/users", middlewares.AdminAuthMiddleware(), admin_handlers.CreateOrgUser)
 	}
 	{
 		v1.POST("/providers", middlewares.AdminAuthMiddleware(), admin_handlers.CreateProvider)

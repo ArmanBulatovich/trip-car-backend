@@ -24,6 +24,7 @@ const (
 	TokenExpired
 	// REQUEST
 	InvalidRequestBody
+	InvalidUrlParam
 	// ORGANIZATIONS
 	InvalidName
 	InvalidSlug

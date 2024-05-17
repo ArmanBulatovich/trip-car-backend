@@ -39,6 +39,33 @@ func CreateOrganization(req *dto.OrganizationRequest, admin *models.Admin) (*res
 	return &resp, nil
 }
 
+func UpdateOrganization(req *dto.OrganizationRequest, id uint) (*responses.ApiResponse, error) {
+	req.Slug = strings.ToLower(req.Slug)
+
+	if req.Name == "" {
+		resp := responses.CreateErrorResponse(nil, "invalid name", responses.InvalidName)
+		return &resp, nil
+	}
+	if !utils.IsValidSlug(req.Slug) {
+		resp := responses.CreateErrorResponse(nil, "invalid slug", responses.InvalidSlug)
+		return &resp, nil
+	}
+
+	metadataJson, err := json.Marshal(req.Metadata)
+	if err != nil {
+		resp := responses.CreateErrorResponse(nil, "invalid metadata", responses.InvalidMetadata)
+		return &resp, nil
+	}
+
+	err = repositories.UpdateOrganization(id, req.Name, req.Slug, metadataJson)
+	if err != nil {
+		return nil, err
+	}
+
+	resp := responses.CreateSuccessResponse(nil, "")
+	return &resp, nil
+}
+
 func GetOrganizations(req *dto.GetOrganizationsRequest) (*responses.ApiResponse, error) {
 	organizations, err := repositories.GetOrganizations(req.Page, req.PerPage)
 	if err != nil {
