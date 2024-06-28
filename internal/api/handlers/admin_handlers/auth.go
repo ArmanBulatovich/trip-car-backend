@@ -28,3 +28,14 @@ func Login(c *gin.Context) {
 
 	c.JSON(http.StatusOK, responses.CreateSuccessResponse(resp, "ok"))
 }
+
+func Me(c *gin.Context) {
+	admin, ok := getAdminFromContext(c)
+	if !ok {
+		log.Printf("admin_handlers.CreateOrganization->getAdminFromContext: Error\n")
+		c.JSON(http.StatusBadGateway, responses.CreateErrorResponse(nil, "", responses.Error))
+		return
+	}
+
+	c.JSON(http.StatusOK, responses.CreateSuccessResponse(admin, "ok"))
+}
