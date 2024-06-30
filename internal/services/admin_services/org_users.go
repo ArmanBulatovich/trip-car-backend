@@ -40,3 +40,15 @@ func CreateOrgUser(req *dto.CreateOrgUserRequestDTO, admin *models.Admin) (*resp
 	resp := responses.CreateSuccessResponse(respDto, "ok")
 	return &resp, nil
 }
+
+func GetOrgUsers(id uint) (*responses.ApiResponse, error) {
+	users, err := repositories.GetOrgUsers(id)
+	if err != nil {
+		return nil, err
+	}
+
+	respDto := dto.GetOrgUsersResponseDTO{Users: users}
+	resp := responses.CreateSuccessResponse(respDto, "")
+
+	return &resp, nil
+}

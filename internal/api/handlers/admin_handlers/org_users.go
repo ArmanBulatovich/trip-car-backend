@@ -3,6 +3,7 @@ package admin_handlers
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/trip/trip-service/internal/api/responses"
@@ -28,7 +29,26 @@ func CreateOrgUser(c *gin.Context) {
 	resp, err := admin_services.CreateOrgUser(req, admin)
 	if err != nil {
 		log.Printf("admin_handlers.CreateOrgUser->CreateOrgUser: %s\n", err.Error())
-		c.JSON(http.StatusBadRequest, responses.CreateErrorResponse(nil, "", responses.Error))
+		c.JSON(http.StatusInternalServerError, responses.CreateErrorResponse(nil, "", responses.Error))
+		return
+	}
+
+	c.JSON(http.StatusOK, resp)
+}
+
+func GetOrgUsers(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.ParseUint(idParam, 10, 64)
+	if err != nil {
+		log.Printf("admin_handlers.GetOrgUsers->ParseUint: %s\n", err.Error())
+		c.JSON(http.StatusBadRequest, responses.CreateErrorResponse(nil, "InvalidUrlParam", responses.InvalidUrlParam))
+		return
+	}
+
+	resp, err := admin_services.GetOrgUsers(uint(id))
+	if err != nil {
+		log.Printf("admin_handlers.GetOrgUsers->GetOrgUsers: %s\n", err.Error())
+		c.JSON(http.StatusInternalServerError, responses.CreateErrorResponse(nil, "", responses.Error))
 		return
 	}
 
