@@ -81,6 +81,25 @@ func GetOrganization(c *gin.Context) {
 	c.JSON(http.StatusOK, resp)
 }
 
+func DeleteOrganization(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.ParseUint(idParam, 10, 64)
+	if err != nil {
+		log.Printf("admin_handlers.DeleteOrganization->ParseUint: %s\n", err.Error())
+		c.JSON(http.StatusBadRequest, responses.CreateErrorResponse(nil, "InvalidUrlParam", responses.InvalidUrlParam))
+		return
+	}
+
+	resp, err := admin_services.DeleteOrganization(uint(id))
+	if err != nil {
+		log.Printf("admin_handlers.DeleteOrganization->DeleteOrganization: %s\n", err.Error())
+		c.JSON(http.StatusInternalServerError, responses.CreateErrorResponse(nil, err.Error(), responses.Error))
+		return
+	}
+
+	c.JSON(http.StatusOK, resp)
+}
+
 func GetOrganizations(c *gin.Context) {
 	req := &dto.GetOrganizationsRequest{}
 	if err := c.BindQuery(&req); err != nil {

@@ -59,6 +59,16 @@ func GetOrganization(id uint) (*models.Organization, error) {
 	return &organization, nil
 }
 
+func DeleteOrganization(id uint) error {
+	query := `
+		DELETE FROM organizations
+		WHERE id = $1 AND deleted_at IS NULL
+	`
+
+	_, err := db.DB.Exec(query, id)
+	return err
+}
+
 func GetOrganizations(page, perPage int) ([]*models.Organization, error) {
 	query := `
 		SELECT id, name, slug, metadata

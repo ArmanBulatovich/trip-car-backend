@@ -17,6 +17,7 @@ func SetAdminRoutesV1(engine *gin.Engine) {
 		v1.POST("/organizations", middlewares.AdminAuthMiddleware(), admin_handlers.CreateOrganization)
 		v1.PUT("/organizations/:id", middlewares.AdminAuthMiddleware(), admin_handlers.UpdateOrganization)
 		v1.GET("/organizations/:id", middlewares.AdminAuthMiddleware(), admin_handlers.GetOrganization)
+		v1.DELETE("/organizations/:id", middlewares.AdminAuthMiddleware(), admin_handlers.DeleteOrganization)
 		v1.GET("/organizations", middlewares.AdminAuthMiddleware(), admin_handlers.GetOrganizations)
 	}
 	{

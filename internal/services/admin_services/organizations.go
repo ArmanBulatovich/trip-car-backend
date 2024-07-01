@@ -78,6 +78,16 @@ func GetOrganization(id uint) (*responses.ApiResponse, error) {
 	return &resp, nil
 }
 
+func DeleteOrganization(id uint) (*responses.ApiResponse, error) {
+	err := repositories.DeleteOrganization(id)
+	if err != nil {
+		return nil, err
+	}
+
+	resp := responses.CreateSuccessResponse(nil, "ok")
+	return &resp, nil
+}
+
 func GetOrganizations(req *dto.GetOrganizationsRequest) (*responses.ApiResponse, error) {
 	organizations, err := repositories.GetOrganizations(req.Page, req.PerPage)
 	if err != nil {
